@@ -1,0 +1,25 @@
+{
+  "name": "leetcode-note",
+  "version": "1.0.0",
+  "description": "leetcode personal notes",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine test/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jesse23/leetcode-note.git"
+  },
+  "keywords": [
+    "leet code"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jesse23/leetcode-note/issues"
+  },
+  "homepage": "https://github.com/jesse23/leetcode-note#readme",
+  "devDependencies": {
+    "jasmine": "^3.5.0"
+  }
+}
