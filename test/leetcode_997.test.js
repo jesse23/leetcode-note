@@ -1,6 +1,6 @@
 const findJudge = require('../src/leetcode_997');
 
-describe( 'Test WASM example', () => {
+describe( 'Leetcode 997', () => {
 
     it( 'N = 2, trust = [[1,2]] ==> 2', () => {
         expect( findJudge( 2, [[1,2]]) ).toEqual( 2 );
