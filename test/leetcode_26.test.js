@@ -1,4 +1,4 @@
-const removeDuplicates = require('../src/leetcode_727');
+const removeDuplicates = require('../src/leetcode_26');
 
 describe( 'Leetcode 727', () => {
 
