@@ -1,6 +1,6 @@
 const singleNumber = require( '../src/leetcode_136' );
 
-describe( 'Leetcode 136', () => {
+describe( 'Test cases for leetcode_136', () => {
     it( 'Input: [2,2,1], Output: 1', () => {
         expect( singleNumber( [ 2, 2, 1 ] ) ).toEqual( 1 );
     } );

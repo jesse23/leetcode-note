@@ -1,6 +1,6 @@
 const findJudge = require( '../src/leetcode_997' );
 
-describe( 'Leetcode 997', () => {
+describe( 'Test cases for leetcode_997', () => {
 
     it( 'N = 2, trust = [[1,2]] ==> 2', () => {
         expect( findJudge( 2, [

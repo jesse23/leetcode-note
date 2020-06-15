@@ -1,6 +1,6 @@
 const removeDuplicates = require( '../src/leetcode_26' );
 
-describe( 'Leetcode 727', () => {
+describe( 'Test cases for leetcode_26', () => {
 
     it( 'Given [1,2,3,4], expect 4', () => {
         const fixture = [ 1, 2, 3, 4 ];

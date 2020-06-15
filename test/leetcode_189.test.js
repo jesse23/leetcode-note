@@ -1,6 +1,6 @@
 const rotate = require( '../src/leetcode_189' );
 
-describe( 'Leetcode 727', () => {
+describe( 'Test cases for leetcode_189', () => {
 
     it( 'Input: nums = [0,1], k = 1, Output: [1,0]', () => {
         const nums = [ 0, 1 ];

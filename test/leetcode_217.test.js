@@ -1,6 +1,6 @@
 const containsDuplicate = require( '../src/leetcode_217' );
 
-describe( 'Leetcode 217', () => {
+describe( 'Test cases for leetcode_217', () => {
     it( 'Input: [1,2,3,1], Output: true', () => {
         expect( containsDuplicate( [ 1, 2, 3, 1 ] ) ).toEqual( true );
     } );

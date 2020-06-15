@@ -1,6 +1,6 @@
 const maxProfit = require( '../src/leetcode_122' );
 
-describe( 'Leetcode 997', () => {
+describe( 'Test cases for leetcode_122', () => {
 
     it( 'Input: [7,1,5,3,6,4], Output: 7', () => {
         expect( maxProfit( [ 7, 1, 5, 3, 6, 4 ] ) ).toEqual( 7 );
