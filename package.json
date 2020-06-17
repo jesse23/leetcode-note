@@ -4,7 +4,7 @@
     "description": "leetcode personal notes",
     "main": "index.js",
     "scripts": {
-        "test": "jasmine test/leetcode_283.test.js",
+        "test": "jasmine test/leetcode_1.test.js",
         "full": "jasmine test/*.test.js"
     },
     "repository": {
