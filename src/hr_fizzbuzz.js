@@ -16,7 +16,7 @@ var fizzBuzz = function( n ) {
 
         if( i === nextFive ) {
             temp.push( 'Buzz' );
-            nextThree += 5;
+            nextFive += 5;
         }
 
         // console.log( temp.length > 0 ? temp.join( '' ) : n );
