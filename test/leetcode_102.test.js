@@ -1,9 +1,10 @@
-const levelOrderArr = require( '../src/leetcode_102' );
+const levelOrder = require( '../src/leetcode_102' );
+const levelArrayToTree = require( '../utils/tree_helper' );
 
 describe( 'Test cases for leetcode_102', () => {
 
     it( 'Input: [3,9,20,null,null,15,7]', () => {
-        expect( levelOrderArr( [ 3, 9, 20, null, null, 15, 7 ] ) ).toEqual(
+        expect( levelOrder( levelArrayToTree( [ 3, 9, 20, null, null, 15, 7 ] ) ) ).toEqual(
             [
                 [ 3 ],
                 [ 9, 20 ],

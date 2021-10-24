@@ -1,43 +1,5 @@
 // #98 - Validate Binary Search Tree
 
-function TreeNode( val, left, right ) {
-    this.val = ( val === undefined ? 0 : val )
-    this.left = ( left === undefined ? null : left )
-    this.right = ( right === undefined ? null : right )
-}
-
-const levelArrayToTree = arr => {
-    let root = null;
-    const queue = [];
-
-    arr.forEach( v => {
-        const curr = new TreeNode( v, 0, 0 );
-        queue.push( curr );
-        if( !root ) {
-            root = curr.val !== null ? curr : null;
-        } else {
-            const node = queue[ 0 ];
-            if( node.left === 0 ) {
-                node.left = curr.val !== null ? curr : null;
-            } else {
-                node.right = curr.val !== null ? curr : null;
-                queue.shift();
-            }
-        }
-    } )
-
-    // cover rest null
-    queue.forEach( node => {
-        if( node.val !== null ) {
-            node.left = node.left === 0 ? null : node.left;
-            node.right = null;
-        }
-    } )
-
-    // console.log( root );
-    return root;
-}
-
 const dfs = ( root ) => {
     let res = [];
     if( root ) {
@@ -78,8 +40,4 @@ var isValidBST = function( root ) {
     return isValid;
 };
 
-const isValidBSTArr = arr => {
-    return isValidBST( levelArrayToTree( arr ) );
-}
-
-module.exports = isValidBSTArr;
+module.exports = isValidBST;

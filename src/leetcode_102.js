@@ -1,43 +1,5 @@
 // #102 - Binary Tree Level Order Traversal
 
-function TreeNode( val, left, right ) {
-    this.val = ( val === undefined ? 0 : val )
-    this.left = ( left === undefined ? null : left )
-    this.right = ( right === undefined ? null : right )
-}
-
-const levelArrayToTree = arr => {
-    let root = null;
-    const queue = [];
-
-    arr.forEach( v => {
-        const curr = new TreeNode( v, 0, 0 );
-        queue.push( curr );
-        if( !root ) {
-            root = curr.val !== null ? curr : null;
-        } else {
-            const node = queue[ 0 ];
-            if( node.left === 0 ) {
-                node.left = curr.val !== null ? curr : null;
-            } else {
-                node.right = curr.val !== null ? curr : null;
-                queue.shift();
-            }
-        }
-    } )
-
-    // cover rest null
-    queue.forEach( node => {
-        if( node.val !== null ) {
-            node.left = null;
-            node.right = null;
-        }
-    } )
-
-    // console.log( root );
-    return root;
-}
-
 /**
  * Definition for a binary tree node.
  * function TreeNode(val, left, right) {
@@ -86,8 +48,4 @@ var levelOrder = function( root ) {
     return res;
 };
 
-const levelOrderArr = arr => {
-    return levelOrder( levelArrayToTree( arr ) );
-}
-
-module.exports = levelOrderArr;
+module.exports = levelOrder;
