@@ -44,7 +44,7 @@ var maxProfit = function( prices ) {
             dayIdx === 1 ? memo[ 0 ][ 0 ] - prices[ dayIdx ] : -Number.MAX_VALUE
         );
     }
-    console.log( memo );
+    // console.log( memo );
     return memo[ prices.length - 1 ][ 0 ];
 };
 

@@ -13,7 +13,7 @@ var lengthOfLIS = function( nums ) {
                 dp[ i ] = Math.max( dp[ i ], dp[ j ] + 1 )
             }
         }
-        console.log( `${i} => ${dp[i]}` )
+        // console.log( `${i} => ${dp[i]}` )
     }
 
     let res = 0;
