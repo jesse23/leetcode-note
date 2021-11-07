@@ -1,37 +1,70 @@
 // #460 - LFU Cache 
 
+var Node = function( key, value ) {
+    this.key = key;
+    this.value = value;
+    this.weight = 0;
+    this.prev = null;
+    this.next = null
+}
+
+Node.prototype.removeSelf = function() {
+    // console.log( `  remove: ${this.prev.key} -> ${this.key} -> ${this.next?.key}` );
+    this.prev.next = this.next;
+    this.next.prev = this.prev;
+    this.prev = null;
+    this.next = null;
+}
+
+Node.prototype.insertAfter = function( node ) {
+    // console.log( `  insert: ${node.key} -> ${this.key} -> ${node.next?.key}` );
+    const nextNode = node.next;
+    node.next = this;
+    nextNode.prev = this;
+    this.prev = node;
+    this.next = nextNode;
+}
+
 /**
  * @param {number} capacity
  */
 var LFUCache = function( capacity ) {
     this._capacity = capacity;
+    this._length = 0;
     this._cache = {};
-    this._linkList = {
-        head: {
-            useCnt: Number.MAX_VALUE
-        },
-        tail: {
-            useCnt: Number.MAX_VALUE
-        },
-        length: 0
-    }
-    this._linkList.head.next = this._linkList.tail;
-    this._linkList.tail.prev = this._linkList.head;
+
+    // construct link list
+    const head = new Node( null, null );
+    const tail = new Node( null, null );
+    head.next = tail;
+    tail.prev = head;
+    this._weightList = [ head ];
 };
 
-const _shiftRecord = ( record ) => {
-    console.log( `shifting ${record.key} => ${record.value}` )
-    const nextRecord = record.next;
-    record.next = nextRecord.next;
-    if( nextRecord.next ) {
-        nextRecord.next.prev = record;
+LFUCache.prototype.promote = function( record ) {
+    if( record.prev && record.next ) {
+        // console.log( `  ${record.weight}: ${this._weightList[ record.weight ].key}` );
+        if( this._weightList[ record.weight ] === record ) {
+            if( record.prev.weight === record.weight ) {
+                this._weightList[ record.weight ] = record.prev;
+            } else {
+                this._weightList[ record.weight ] = undefined;
+            }
+        }
+        record.removeSelf();
     }
-    nextRecord.next = record;
-    nextRecord.prev = record.prev;
-    if( record.prev ) {
-        record.prev.next = nextRecord;
+
+    record.weight++;
+
+    for( let i = record.weight; i >= 0; i-- ) {
+        const weightTail = this._weightList[ i ];
+        if( weightTail ) {
+            // console.log( `insert [${weightTail.key}, ${weightTail.value}] => [${record.key}, ${record.value}]` )
+            record.insertAfter( weightTail );
+            this._weightList[ record.weight ] = record;
+            break;
+        }
     }
-    record.prev = nextRecord;
 }
 
 /** 
@@ -41,12 +74,8 @@ const _shiftRecord = ( record ) => {
 LFUCache.prototype.get = function( key ) {
     const record = this._cache[ key ];
     if( record ) {
-        record.useCnt++;
-        // move to last of the queue if tie
-        while( record.next && record.useCnt >= record.next.useCnt ) {
-            _shiftRecord( record );
-        }
-        console.log( `getting ${record.key} => ${record.value}` )
+        this.promote( record );
+        // console.log( `get ${record.key} => ${record.value}` )
         return record.value;
     }
     return -1;
@@ -64,44 +93,27 @@ LFUCache.prototype.put = function( key, value ) {
 
     const record = this._cache[ key ];
     if( record ) {
-        console.log( `updating ${record.key} => ${record.value}` )
         record.value = value;
-        record.useCnt++;
-        while( record.next && record.useCnt >= record.next.useCnt ) {
-            _shiftRecord( record );
-        }
+        this.promote( record );
     } else {
-        if( this._linkList.length === this._capacity ) {
-            // pop 1st item
-            const firstRecord = this._linkList.head.next;
-            this._linkList.head.next = firstRecord.next;
-            if( firstRecord.next ) {
-                firstRecord.next.prev = this._linkList.head;
+        if( this._length === this._capacity ) {
+            // remove 1st item
+            const firstRecord = this._weightList[ 0 ].next;
+            firstRecord.removeSelf();
+            //console.log( `  ${firstRecord.weight}: ${this._weightList[ firstRecord.weight ].key}` );
+            if( this._weightList[ firstRecord.weight ] === firstRecord ) {
+                this._weightList[ firstRecord.weight ] = undefined;
             }
-            console.log( `removing ${firstRecord.key} => ${firstRecord.value}` )
             delete this._cache[ firstRecord.key ];
-            this._linkList.length--;
+            this._length--;
         }
-        // put into the queue
-        const record = {
-            prev: this._linkList.head,
-            key,
-            value,
-            useCnt: 1,
-        }
-        record.next = this._linkList.head.next;
-        if( this._linkList.head.next ) {
-            this._linkList.head.next.prev = record;
-        }
-        this._linkList.head.next = record;
-        while( record.next && record.useCnt >= record.next.useCnt ) {
-            _shiftRecord( record );
-        }
-        console.log( `adding ${record.key} => ${record.value}` )
-        this._cache[ key ] = record;
-        this._linkList.length++;
-    }
 
+        // put into the queue
+        const record = new Node( key, value );
+        this.promote( record );
+        this._cache[ key ] = record;
+        this._length++;
+    }
 };
 
 /** 
